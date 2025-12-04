@@ -1,13 +1,13 @@
 """
-SEE URL - A modern Python SDK for URL shortening service.
+SEE - A modern Python SDK for SEE services.
 
 This package provides a clean and type-safe interface for interacting
-with URL shortening services.
+with SEE services.
 """
 
 from .client import SeeClient
 from .exceptions import (
-    SeeUrlError,
+    SeeError,
     APIError,
     AuthenticationError,
     ValidationError,
@@ -18,7 +18,7 @@ from .exceptions import (
 __version__ = "0.1.0"
 __all__ = [
     "SeeClient",
-    "SeeUrlError",
+    "SeeError",
     "APIError",
     "AuthenticationError",
     "ValidationError",

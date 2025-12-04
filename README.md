@@ -1,11 +1,11 @@
-# SEE URL Python SDK
+# SEE Python SDK
 
 [![Python Version](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Type checked: mypy](https://img.shields.io/badge/type%20checked-mypy-blue.svg)](http://mypy-lang.org/)
 
-A modern Python SDK for interacting with SEE URL shortening service, featuring async support, full type safety, and Python 3.11+ capabilities.
+A modern Python SDK for interacting with SEE services, featuring async support, full type safety, and Python 3.11+ capabilities.
 
 ## Features
 
@@ -24,14 +24,14 @@ A modern Python SDK for interacting with SEE URL shortening service, featuring a
 ## Installation
 
 ```bash
-pip install see-url-sdk
+pip install see-sdk
 ```
 
 Install from source:
 
 ```bash
-git clone https://github.com/yourusername/see-url-sdk.git
-cd see-url-sdk
+git clone https://github.com/yourusername/see-sdk.git
+cd see-sdk
 pip install -e .
 ```
 
@@ -201,8 +201,8 @@ async with SeeClient(api_key=api_key) as client:
 ### Setup
 
 ```bash
-git clone https://github.com/yourusername/see-url-sdk.git
-cd see-url-sdk
+git clone https://github.com/yourusername/see-sdk.git
+cd see-sdk
 
 python -m venv venv
 source venv/bin/activate  # Linux/macOS
@@ -215,7 +215,7 @@ pre-commit install
 
 ```bash
 pytest
-pytest --cov=see_url --cov-report=html
+pytest --cov=see --cov-report=html
 pytest tests/test_client.py
 ```
 

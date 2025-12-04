@@ -1,9 +1,9 @@
-# Makefile for SEE URL Python SDK
+# Makefile for SEE Python SDK
 
 .PHONY: help install install-dev test test-cov lint format type-check clean build publish
 
 help:
-	@echo "SEE URL Python SDK - Available commands:"
+	@echo "SEE Python SDK - Available commands:"
 	@echo "  make install       - Install package dependencies"
 	@echo "  make install-dev   - Install package with development dependencies"
 	@echo "  make test          - Run tests"
@@ -26,7 +26,7 @@ test:
 	pytest
 
 test-cov:
-	pytest --cov=see_url --cov-report=term-missing --cov-report=html --cov-report=xml
+	pytest --cov=see --cov-report=term-missing --cov-report=html --cov-report=xml
 
 lint:
 	ruff check src/ tests/ examples/

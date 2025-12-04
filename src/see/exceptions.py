@@ -1,17 +1,17 @@
-"""Custom exceptions for SEE URL SDK."""
+"""Custom exceptions for SEE SDK."""
 
 from typing import Any
 
 
-class SeeUrlError(Exception):
-    """Base exception for all SEE URL SDK errors."""
+class SeeError(Exception):
+    """Base exception for all SEE SDK errors."""
 
     def __init__(self, message: str, *args: Any) -> None:
         super().__init__(message, *args)
         self.message = message
 
 
-class APIError(SeeUrlError):
+class APIError(SeeError):
     """Raised when the API returns an error response."""
 
     def __init__(
@@ -31,7 +31,7 @@ class AuthenticationError(APIError):
     pass
 
 
-class ValidationError(SeeUrlError):
+class ValidationError(SeeError):
     """Raised when input validation fails."""
 
     pass

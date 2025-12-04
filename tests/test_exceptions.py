@@ -7,14 +7,14 @@ from see.exceptions import (
     AuthenticationError,
     NotFoundError,
     RateLimitError,
-    SeeUrlError,
+    SeeError,
     ValidationError,
 )
 
 
-def test_see_url_error() -> None:
-    """Test base SeeUrlError exception."""
-    error = SeeUrlError("Test error")
+def test_see_error() -> None:
+    """Test base SeeError exception."""
+    error = SeeError("Test error")
     assert str(error) == "Test error"
     assert error.message == "Test error"
 
@@ -50,7 +50,7 @@ def test_authentication_error() -> None:
 def test_validation_error() -> None:
     """Test ValidationError exception."""
     error = ValidationError("Invalid input")
-    assert isinstance(error, SeeUrlError)
+    assert isinstance(error, SeeError)
     assert error.message == "Invalid input"
 
 

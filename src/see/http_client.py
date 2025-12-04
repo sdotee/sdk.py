@@ -35,7 +35,7 @@ class HttpClient:
             "headers": {
                 "Authorization": self.api_key,
                 "Content-Type": "application/json",
-                "User-Agent": "see-url-python-sdk/0.1.0",
+                "User-Agent": "see-python-sdk/0.1.0",
             },
         }
         if self.proxy:

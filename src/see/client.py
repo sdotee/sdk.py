@@ -1,4 +1,4 @@
-"""Main client for SEE URL SDK."""
+"""Main client for SEE SDK."""
 
 from dataclasses import asdict
 from typing import Any
@@ -19,9 +19,9 @@ from .models import (
 
 class SeeClient:
     """
-    Main client for interacting with the URL shortening service.
+    Main client for interacting with SEE services.
 
-    This client provides methods to create, update, and delete short URLs,
+    This client provides methods to create, update, and delete resources,
     as well as retrieve available domains and tags.
 
     Example:

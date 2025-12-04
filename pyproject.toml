@@ -3,14 +3,17 @@ requires = ["setuptools>=68.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "see-url-sdk"
-version = "0.1.0"
-description = "A modern Python SDK for URL shortening service"
+name = "see-sdk"
+version = "0.1.2"
+description = "A modern Python SDK for SEE services"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
-authors = [{ name = "Your Name", email = "your.email@example.com" }]
-keywords = ["url", "shortener", "sdk", "api", "async"]
+authors = [
+    { name = "mingcheng", email = "mingcheng@apache.org" },
+    { name = "showfom", email = "showfom@s.ee" },
+]
+keywords = ["sdk", "api", "async", "python"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -34,20 +37,22 @@ dev = [
     "ruff>=0.3.0",
     "mypy>=1.8.0",
     "pre-commit>=3.6.0",
+    "build>=1.0.0",
+    "twine>=4.0.0",
 ]
 docs = ["sphinx>=7.2.0", "sphinx-rtd-theme>=2.0.0"]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/see-url-sdk"
-Documentation = "https://see-url-sdk.readthedocs.io"
-Repository = "https://github.com/yourusername/see-url-sdk"
-Issues = "https://github.com/yourusername/see-url-sdk/issues"
+Homepage = "https://github.com/yourusername/see-sdk"
+Documentation = "https://see-sdk.readthedocs.io"
+Repository = "https://github.com/yourusername/see-sdk"
+Issues = "https://github.com/yourusername/see-sdk/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 
 [tool.setuptools.package-data]
-see_url = ["py.typed"]
+see = ["py.typed"]
 
 [tool.black]
 line-length = 88
@@ -106,7 +111,7 @@ python_functions = ["test_*"]
 addopts = [
     "--strict-markers",
     "--strict-config",
-    "--cov=see_url",
+    "--cov=see",
     "--cov-report=term-missing",
     "--cov-report=html",
     "--cov-report=xml",
