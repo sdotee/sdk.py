@@ -39,9 +39,7 @@ pip install -e .
 
 ### Environment Setup
 
-Use environment variables to store your API key:
-
-Use environment variables to store your API key:
+Set your API key as an environment variable:
 
 ```bash
 export SEE_API_KEY="your-api-key-here"
@@ -76,69 +74,82 @@ asyncio.run(main())
 ### Custom Short URL
 
 ```python
+import asyncio
 import os
 from datetime import datetime, timedelta
 from see import SeeClient
 from see.models import CreateShortUrlRequest
 
-api_key = os.getenv("SEE_API_KEY")
+async def create_custom_url():
+    api_key = os.getenv("SEE_API_KEY")
+    
+    async with SeeClient(api_key=api_key) as client:
+        expire_time = int((datetime.now() + timedelta(days=30)).timestamp())
+        
+        request = CreateShortUrlRequest(
+            domain="s.ee",
+            target_url="https://example.com/product/123",
+            custom_slug="product123",
+            title="Product 123",
+            expire_at=expire_time,
+            tag_ids=[1, 2]
+        )
+        
+        response = await client.create_short_url(request)
+        print(f"Custom URL: {response.data}")
 
-async with SeeClient(api_key=api_key) as client:
-    expire_time = int((datetime.now() + timedelta(days=30)).timestamp())
-    
-    request = CreateShortUrlRequest(
-        domain="s.ee",
-        target_url="https://example.com/product/123",
-        custom_slug="product123",
-        title="Product 123",
-        expire_at=expire_time,
-        tag_ids=[1, 2]
-    )
-    
-    response = await client.create_short_url(request)
-    print(f"Custom URL: {response.data}")
+asyncio.run(create_custom_url())
 ```
 
 ### Managing URLs
 
 ```python
+import asyncio
 import os
 from see import SeeClient
 from see.models import UpdateShortUrlRequest, DeleteShortUrlRequest
 
-api_key = os.getenv("SEE_API_KEY")
-
-async with SeeClient(api_key=api_key) as client:
-    update_request = UpdateShortUrlRequest(
-        domain="s.ee",
-        slug="abc123",
-        target_url="https://example.com/new-destination",
-        title="Updated Title"
-    )
-    updated = await client.update_short_url(update_request)
+async def manage_urls():
+    api_key = os.getenv("SEE_API_KEY")
     
-    delete_request = DeleteShortUrlRequest(
-        domain="s.ee",
-        slug="abc123"
-    )
-    deleted = await client.delete_short_url(delete_request)
-    deleted = await client.delete_short_url(delete_request)
+    async with SeeClient(api_key=api_key) as client:
+        # Update
+        update_request = UpdateShortUrlRequest(
+            domain="s.ee",
+            slug="abc123",
+            target_url="https://example.com/new-destination",
+            title="Updated Title"
+        )
+        updated = await client.update_short_url(update_request)
+        
+        # Delete
+        delete_request = DeleteShortUrlRequest(
+            domain="s.ee",
+            slug="abc123"
+        )
+        deleted = await client.delete_short_url(delete_request)
+
+asyncio.run(manage_urls())
 ```
 
 ### Domains and Tags
 
 ```python
+import asyncio
 import os
 from see import SeeClient
 
-api_key = os.getenv("SEE_API_KEY")
-
-async with SeeClient(api_key=api_key) as client:
-    domains = await client.get_domains()
-    print(f"Domains: {domains.data}")
+async def get_metadata():
+    api_key = os.getenv("SEE_API_KEY")
     
-    tags = await client.get_tags()
-    print(f"Tags: {tags.data}")
+    async with SeeClient(api_key=api_key) as client:
+        domains = await client.get_domains()
+        print(f"Domains: {domains.data}")
+        
+        tags = await client.get_tags()
+        print(f"Tags: {tags.data}")
+
+asyncio.run(get_metadata())
 ```
 
 ## Advanced Usage
@@ -151,18 +162,22 @@ from see import SeeClient
 
 api_key = os.getenv("SEE_API_KEY")
 
-client = SeeClient(
+# Create a client with custom configuration
+async with SeeClient(
     api_key=api_key,
     base_url="https://s.ee/api",
     timeout=60.0,
     max_retries=5,
     proxy=None
-)
+) as client:
+    # Use the client...
+    pass
 ```
 
 ### Error Handling
 
 ```python
+import asyncio
 import os
 from see import SeeClient
 from see.models import CreateShortUrlRequest
@@ -174,26 +189,29 @@ from see.exceptions import (
     APIError
 )
 
-api_key = os.getenv("SEE_API_KEY")
+async def safe_create_url():
+    api_key = os.getenv("SEE_API_KEY")
+    
+    async with SeeClient(api_key=api_key) as client:
+        try:
+            request = CreateShortUrlRequest(
+                domain="s.ee",
+                target_url="https://example.com",
+                title="Example"
+            )
+            response = await client.create_short_url(request)
+        except ValidationError as e:
+            print(f"Validation error: {e}")
+        except AuthenticationError as e:
+            print(f"Authentication failed: {e}")
+        except RateLimitError as e:
+            print(f"Rate limit: {e}")
+        except NotFoundError as e:
+            print(f"Not found: {e}")
+        except APIError as e:
+            print(f"API error: {e}")
 
-async with SeeClient(api_key=api_key) as client:
-    try:
-        request = CreateShortUrlRequest(
-            domain="s.ee",
-            target_url="https://example.com",
-            title="Example"
-        )
-        response = await client.create_short_url(request)
-    except ValidationError as e:
-        print(f"Validation error: {e}")
-    except AuthenticationError as e:
-        print(f"Authentication failed: {e}")
-    except RateLimitError as e:
-        print(f"Rate limit: {e}")
-    except NotFoundError as e:
-        print(f"Not found: {e}")
-    except APIError as e:
-        print(f"API error: {e}")
+asyncio.run(safe_create_url())
 ```
 
 ## Development
