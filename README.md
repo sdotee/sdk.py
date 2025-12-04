@@ -27,12 +27,13 @@ A modern Python SDK for interacting with SEE services, featuring async support, 
 pip install see-sdk
 ```
 
+or you can visit [PyPI page](https://pypi.org/project/see-sdk/) for more options.
+
 Install from source:
 
 ```bash
-git clone https://github.com/yourusername/see-sdk.git
-cd see-sdk
-pip install -e .
+git clone https://github.com/sdotee/sdk.py see-python-sdk
+cd see-python-sdk && pip install -e .
 ```
 
 ## Quick Start
