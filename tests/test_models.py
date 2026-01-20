@@ -73,7 +73,10 @@ def test_create_short_url_response_from_dict() -> None:
     response = CreateShortUrlResponse.from_dict(data)
 
     assert response.code == 0
-    assert response.data == {"short_url": "https://example.com/abc123", "slug": "abc123"}
+    assert response.data == {
+        "short_url": "https://example.com/abc123",
+        "slug": "abc123",
+    }
     assert response.message == "Success"
 
 
@@ -139,9 +142,7 @@ def test_domain_response_from_dict() -> None:
     """Test creating DomainResponse from dictionary."""
     data = {
         "code": 0,
-        "data": {
-            "domains": ["example.com", "short.link", "my.link"]
-        },
+        "data": {"domains": ["example.com", "short.link", "my.link"]},
         "message": "Success",
     }
 

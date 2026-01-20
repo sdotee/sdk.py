@@ -1,6 +1,5 @@
 """Tests for exception classes."""
 
-
 from see.exceptions import (
     APIError,
     AuthenticationError,

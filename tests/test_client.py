@@ -35,9 +35,7 @@ class TestSeeClient:
         """Test retrieving available domains."""
         mock_response = {
             "code": 200,
-            "data": {
-                "domains": ["example.com", "short.link", "my.link"]
-            },
+            "data": {"domains": ["example.com", "short.link", "my.link"]},
             "message": "Success",
         }
 

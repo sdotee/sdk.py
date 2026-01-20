@@ -1,27 +1,27 @@
 """HTTP client wrapper for SEE URL SDK."""
 
 import asyncio
-from typing import Any
+from typing import Any, cast
 from urllib.parse import urljoin
 
 import httpx
 
-from .version import __version__
 from .exceptions import (
     APIError,
 )
+from .version import __version__
 
 
 class HttpClient:
     """Async HTTP client for API requests."""
 
     def __init__(
-            self,
-            api_key: str,
-            base_url: str = "https://s.ee/api",
-            timeout: float = 30.0,
-            max_retries: int = 3,
-            proxy: str | None = None,
+        self,
+        api_key: str,
+        base_url: str = "https://s.ee/api",
+        timeout: float = 30.0,
+        max_retries: int = 3,
+        proxy: str | None = None,
     ) -> None:
         self.base_url = base_url.rstrip("/")
         self.api_key = api_key
@@ -32,7 +32,7 @@ class HttpClient:
 
     async def __aenter__(self) -> "HttpClient":
         """Async context manager entry."""
-        client_kwargs = {
+        client_kwargs: dict[str, Any] = {
             "timeout": self.timeout,
             "headers": {
                 "Authorization": self.api_key,
@@ -71,10 +71,10 @@ class HttpClient:
         )
 
     async def request(
-            self,
-            method: str,
-            path: str,
-            **kwargs: Any,
+        self,
+        method: str,
+        path: str,
+        **kwargs: Any,
     ) -> Any:
         """Make an HTTP request with retry logic."""
         if not self._client:
@@ -98,7 +98,7 @@ class HttpClient:
             except (httpx.TimeoutException, httpx.ConnectError) as e:
                 last_exception = e
                 if attempt < self.max_retries - 1:
-                    await asyncio.sleep(2 ** attempt)  # Exponential backoff
+                    await asyncio.sleep(2**attempt)  # Exponential backoff
                 continue
             except APIError:
                 raise
@@ -111,16 +111,16 @@ class HttpClient:
 
     async def get(self, path: str, **kwargs: Any) -> dict[str, Any]:
         """Make a GET request."""
-        return await self.request("GET", path, **kwargs)
+        return cast(dict[str, Any], await self.request("GET", path, **kwargs))
 
     async def post(self, path: str, **kwargs: Any) -> dict[str, Any]:
         """Make a POST request."""
-        return await self.request("POST", path, **kwargs)
+        return cast(dict[str, Any], await self.request("POST", path, **kwargs))
 
     async def put(self, path: str, **kwargs: Any) -> dict[str, Any]:
         """Make a PUT request."""
-        return await self.request("PUT", path, **kwargs)
+        return cast(dict[str, Any], await self.request("PUT", path, **kwargs))
 
     async def delete(self, path: str, **kwargs: Any) -> dict[str, Any]:
         """Make a DELETE request."""
-        return await self.request("DELETE", path, **kwargs)
+        return cast(dict[str, Any], await self.request("DELETE", path, **kwargs))

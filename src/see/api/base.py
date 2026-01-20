@@ -6,5 +6,5 @@ if TYPE_CHECKING:
 
 class BaseAPI:
     """Base class for API mixins providing type hints."""
-    
+
     _http_client: "HttpClient"

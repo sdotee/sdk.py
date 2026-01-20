@@ -9,8 +9,6 @@ from ..models import (
     UpdateTextRequest,
     UpdateTextResponse,
 )
-
-
 from .base import BaseAPI
 
 

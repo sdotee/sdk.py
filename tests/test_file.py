@@ -101,9 +101,7 @@ class TestSeeClientFile:
         """Test getting file domains."""
         mock_response = {
             "code": 0,
-            "data": {
-                "domains": ["f.see", "files.com"]
-            },
+            "data": {"domains": ["f.see", "files.com"]},
             "message": "success",
         }
 

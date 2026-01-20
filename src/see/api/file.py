@@ -5,8 +5,6 @@ from ..models import (
     DomainResponse,
     UploadFileResponse,
 )
-
-
 from .base import BaseAPI
 
 

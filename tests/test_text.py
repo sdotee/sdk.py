@@ -129,9 +129,7 @@ class TestSeeClientText:
         """Test getting text domains."""
         mock_response = {
             "code": 0,
-            "data": {
-                "domains": ["s.ee", "example.com"]
-            },
+            "data": {"domains": ["s.ee", "example.com"]},
             "message": "success",
         }
 
