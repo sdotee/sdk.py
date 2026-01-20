@@ -1,27 +1,27 @@
 """
-SEE - A modern Python SDK for SEE services.
+SEE - A modern Python SDK for SEE Content Sharing services.
 
 This package provides a clean and type-safe interface for interacting
-with SEE services.
+with SEE services to manage Short URLs, Text, Files, and more.
 """
 
 from .client import SeeClient
 from .exceptions import (
-    SeeError,
     APIError,
     AuthenticationError,
-    ValidationError,
-    RateLimitError,
     NotFoundError,
+    RateLimitError,
+    SeeError,
+    ValidationError,
 )
+from .version import __version__
 
-__version__ = "0.1.0"
 __all__ = [
-    "SeeClient",
-    "SeeError",
     "APIError",
     "AuthenticationError",
-    "ValidationError",
-    "RateLimitError",
     "NotFoundError",
+    "RateLimitError",
+    "SeeClient",
+    "SeeError",
+    "ValidationError",
 ]

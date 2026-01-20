@@ -52,7 +52,34 @@ Comprehensive example covering all major SDK features.
 python complete_example.py
 ```
 
-### 3. advanced_example.py
+### 3. text_sharing.py
+Demonstrates Text Sharing features.
+
+**What it demonstrates**:
+- Creating text snippets
+- Updating text content
+- Deleting text entries
+- Retrieving text domains
+
+**Run it**:
+```bash
+python text_sharing.py
+```
+
+### 4. file_sharing.py
+Demonstrates File Sharing features.
+
+**What it demonstrates**:
+- Uploading files
+- Deleting files
+- Retrieving file domains
+
+**Run it**:
+```bash
+python file_sharing.py
+```
+
+### 5. advanced_example.py
 
 Advanced workflows and use cases.
 
@@ -86,7 +113,7 @@ from see.models import CreateShortUrlRequest
 
 async def main():
     api_key = os.getenv("SEE_API_KEY")
-    
+
     async with SeeClient(api_key=api_key) as client:
         request = CreateShortUrlRequest(
             domain="s.ee",
@@ -149,7 +176,7 @@ async with SeeClient(api_key=api_key) as client:
         )
         for url, slug in urls
     ]
-    
+
     responses = await asyncio.gather(*tasks, return_exceptions=True)
     for response in responses:
         if isinstance(response, Exception):

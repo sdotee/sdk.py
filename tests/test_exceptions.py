@@ -1,6 +1,5 @@
 """Tests for exception classes."""
 
-import pytest
 
 from see.exceptions import (
     APIError,

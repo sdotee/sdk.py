@@ -5,7 +5,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Type checked: mypy](https://img.shields.io/badge/type%20checked-mypy-blue.svg)](http://mypy-lang.org/)
 
-A modern Python SDK for interacting with SEE services, featuring async support, full type safety, and Python 3.11+ capabilities.
+A modern Python SDK for **SEE Content Sharing services** (Short URL, Text, File, etc.), featuring async support, full type safety, and Python 3.11+ capabilities.
 
 ## Features
 
@@ -48,172 +48,17 @@ export SEE_API_KEY="your-api-key-here"
 
 ### Basic Usage
 
-```python
-import asyncio
-import os
-from see import SeeClient
-from see.models import CreateShortUrlRequest
+See [examples/quickstart.py](examples/quickstart.py) for a simple example of how to create a short URL.
 
-async def main():
-    api_key = os.getenv("SEE_API_KEY")
-    
-    async with SeeClient(api_key=api_key) as client:
-        request = CreateShortUrlRequest(
-            domain="s.ee",
-            target_url="https://example.com/very/long/url",
-            title="Example Short URL"
-        )
-        
-        response = await client.create_short_url(request)
-        print(f"Code: {response.code}")
-        print(f"Message: {response.message}")
-        print(f"Data: {response.data}")
+## Examples
 
-asyncio.run(main())
-```
+The [examples](examples/) directory contains comprehensive usage examples for all features:
 
-### Custom Short URL
-
-```python
-import asyncio
-import os
-from datetime import datetime, timedelta
-from see import SeeClient
-from see.models import CreateShortUrlRequest
-
-async def create_custom_url():
-    api_key = os.getenv("SEE_API_KEY")
-    
-    async with SeeClient(api_key=api_key) as client:
-        expire_time = int((datetime.now() + timedelta(days=30)).timestamp())
-        
-        request = CreateShortUrlRequest(
-            domain="s.ee",
-            target_url="https://example.com/product/123",
-            custom_slug="product123",
-            title="Product 123",
-            expire_at=expire_time,
-            tag_ids=[1, 2]
-        )
-        
-        response = await client.create_short_url(request)
-        print(f"Custom URL: {response.data}")
-
-asyncio.run(create_custom_url())
-```
-
-### Managing URLs
-
-```python
-import asyncio
-import os
-from see import SeeClient
-from see.models import UpdateShortUrlRequest, DeleteShortUrlRequest
-
-async def manage_urls():
-    api_key = os.getenv("SEE_API_KEY")
-    
-    async with SeeClient(api_key=api_key) as client:
-        # Update
-        update_request = UpdateShortUrlRequest(
-            domain="s.ee",
-            slug="abc123",
-            target_url="https://example.com/new-destination",
-            title="Updated Title"
-        )
-        updated = await client.update_short_url(update_request)
-        
-        # Delete
-        delete_request = DeleteShortUrlRequest(
-            domain="s.ee",
-            slug="abc123"
-        )
-        deleted = await client.delete_short_url(delete_request)
-
-asyncio.run(manage_urls())
-```
-
-### Domains and Tags
-
-```python
-import asyncio
-import os
-from see import SeeClient
-
-async def get_metadata():
-    api_key = os.getenv("SEE_API_KEY")
-    
-    async with SeeClient(api_key=api_key) as client:
-        domains = await client.get_domains()
-        print(f"Domains: {domains.data}")
-        
-        tags = await client.get_tags()
-        print(f"Tags: {tags.data}")
-
-asyncio.run(get_metadata())
-```
-
-## Advanced Usage
-
-### Custom Configuration
-
-```python
-import os
-from see import SeeClient
-
-api_key = os.getenv("SEE_API_KEY")
-
-# Create a client with custom configuration
-async with SeeClient(
-    api_key=api_key,
-    base_url="https://s.ee/api",
-    timeout=60.0,
-    max_retries=5,
-    proxy=None
-) as client:
-    # Use the client...
-    pass
-```
-
-### Error Handling
-
-```python
-import asyncio
-import os
-from see import SeeClient
-from see.models import CreateShortUrlRequest
-from see.exceptions import (
-    ValidationError,
-    AuthenticationError,
-    RateLimitError,
-    NotFoundError,
-    APIError
-)
-
-async def safe_create_url():
-    api_key = os.getenv("SEE_API_KEY")
-    
-    async with SeeClient(api_key=api_key) as client:
-        try:
-            request = CreateShortUrlRequest(
-                domain="s.ee",
-                target_url="https://example.com",
-                title="Example"
-            )
-            response = await client.create_short_url(request)
-        except ValidationError as e:
-            print(f"Validation error: {e}")
-        except AuthenticationError as e:
-            print(f"Authentication failed: {e}")
-        except RateLimitError as e:
-            print(f"Rate limit: {e}")
-        except NotFoundError as e:
-            print(f"Not found: {e}")
-        except APIError as e:
-            print(f"API error: {e}")
-
-asyncio.run(safe_create_url())
-```
+- **Quick Start**: [examples/quickstart.py](examples/quickstart.py) - Basic usage for Short URLs.
+- **Short URLs**: [examples/complete_example.py](examples/complete_example.py) - Advanced Short URL features (custom slugs, tags, expiration).
+- **Text Sharing**: [examples/text_sharing.py](examples/text_sharing.py) - Creating, updating, and deleting shared text.
+- **File Sharing**: [examples/file_sharing.py](examples/file_sharing.py) - Uploading and managing files.
+- **Advanced Usage**: [examples/advanced_example.py](examples/advanced_example.py) - Complex workflows and resource management.
 
 ## Development
 

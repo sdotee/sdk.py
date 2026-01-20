@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "see-sdk"
 version = "0.1.2"
-description = "A modern Python SDK for SEE services"
+description = "A modern Python SDK for SEE Content Sharing services (Short URL, Text, File, etc.)"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
@@ -13,7 +13,7 @@ authors = [
     { name = "mingcheng", email = "mingcheng@apache.org" },
     { name = "showfom", email = "showfom@s.ee" },
 ]
-keywords = ["sdk", "api", "async", "python"]
+keywords = ["sdk", "api", "async", "python", "url-shortener", "text-sharing", "file-sharing"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",

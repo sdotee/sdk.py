@@ -5,13 +5,13 @@ import pytest
 from see.models import (
     CreateShortUrlRequest,
     CreateShortUrlResponse,
-    UpdateShortUrlRequest,
-    UpdateShortUrlResponse,
     DeleteShortUrlRequest,
     DeleteShortUrlResponse,
     DomainResponse,
     Tag,
     TagResponse,
+    UpdateShortUrlRequest,
+    UpdateShortUrlResponse,
 )
 
 

@@ -6,9 +6,11 @@ from urllib.parse import urljoin
 
 import httpx
 
+from .version import __version__
 from .exceptions import (
     APIError,
 )
+
 
 class HttpClient:
     """Async HTTP client for API requests."""
@@ -34,8 +36,7 @@ class HttpClient:
             "timeout": self.timeout,
             "headers": {
                 "Authorization": self.api_key,
-                "Content-Type": "application/json",
-                "User-Agent": "see-python-sdk/0.1.0",
+                "User-Agent": f"see-python-sdk/{__version__}",
             },
         }
         if self.proxy:
@@ -55,13 +56,18 @@ class HttpClient:
 
     def _handle_response(self, response: httpx.Response) -> Any:
         """Handle API response and raise appropriate exceptions."""
+        try:
+            data = response.json()
+        except Exception:
+            data = {"content": response.text}
+
         if response.status_code in (200, 201):
-            return response.json()
+            return data
 
         raise APIError(
-            message="API request failed",
+            message=f"API request failed: {response.status_code}",
             status_code=response.status_code,
-            response_data=response.json(),
+            response_data=data,
         )
 
     async def request(
@@ -73,6 +79,14 @@ class HttpClient:
         """Make an HTTP request with retry logic."""
         if not self._client:
             raise RuntimeError("HttpClient must be used as async context manager")
+
+        # Set default Content-Type to application/json if not present and not uploading files
+        if "files" not in kwargs:
+            headers = kwargs.get("headers", {})
+            if "Content-Type" not in headers:
+                if "headers" not in kwargs:
+                    kwargs["headers"] = {}
+                kwargs["headers"]["Content-Type"] = "application/json"
 
         url = self._get_url(path)
         last_exception: Exception | None = None
