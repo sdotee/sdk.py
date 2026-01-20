@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "see-sdk"
-version = "0.1.2"
+version = "1.1.0"
 description = "A modern Python SDK for SEE Content Sharing services (Short URL, Text, File, etc.)"
 readme = "README.md"
 requires-python = ">=3.11"

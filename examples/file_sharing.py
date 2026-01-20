@@ -8,6 +8,7 @@ This example demonstrates how to use the File Sharing features of the SDK:
 """
 
 import asyncio
+import contextlib
 import os
 import tempfile
 from pathlib import Path
@@ -39,7 +40,7 @@ async def main() -> None:
             print(f"\nUploading file: {tmp_path}")
             uploaded = await client.upload_file(tmp_path)
 
-            print(f"Upload successful!")
+            print("Upload successful!")
             print(f"URL: {uploaded.url}")
             print(f"Hash: {uploaded.hash}")
             print(f"Size: {uploaded.size} bytes")
@@ -52,10 +53,9 @@ async def main() -> None:
 
         finally:
             # Cleanup temporary file
-            try:
-                os.unlink(tmp_path)
-            except OSError:
-                pass
+            with contextlib.suppress(OSError):
+                Path(tmp_path).unlink()
+
 
 if __name__ == "__main__":
     asyncio.run(main())

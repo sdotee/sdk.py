@@ -15,8 +15,8 @@ from urllib.parse import urlparse
 from see import SeeClient
 from see.models import (
     CreateTextRequest,
-    UpdateTextRequest,
     DeleteTextRequest,
+    UpdateTextRequest,
 )
 
 
@@ -57,21 +57,19 @@ async def main() -> None:
                 domain=domain,
                 slug=created.slug,
                 content="Updated content from Python SDK!",
-                title="Updated Title"
+                title="Updated Title",
             )
             updated = await client.update_text(update_req)
             print(f"Update status: {updated.code} - {updated.message}")
 
             # 4. Delete the text
             print("\nDeleting text...")
-            delete_req = DeleteTextRequest(
-                domain=domain,
-                slug=created.slug
-            )
+            delete_req = DeleteTextRequest(domain=domain, slug=created.slug)
             deleted = await client.delete_text(delete_req)
             print(f"Delete status: {deleted.code} - {deleted.message}")
         else:
             print("\nCannot update/delete: No short_url or slug returned.")
+
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -17,17 +17,16 @@ import os
 from datetime import datetime, timedelta
 
 from see import SeeClient
-from see.models import (
-    CreateShortUrlRequest,
-    UpdateShortUrlRequest,
-    DeleteShortUrlRequest,
-)
 from see.exceptions import (
     APIError,
     AuthenticationError,
     NotFoundError,
-    RateLimitError,
     ValidationError,
+)
+from see.models import (
+    CreateShortUrlRequest,
+    DeleteShortUrlRequest,
+    UpdateShortUrlRequest,
 )
 
 
@@ -255,7 +254,7 @@ async def batch_operations_example(api_key: str) -> None:
         responses = await asyncio.gather(*tasks, return_exceptions=True)
 
         print("Created short URLs:")
-        for (original, slug), response in zip(urls_to_shorten, responses):
+        for (original, _), response in zip(urls_to_shorten, responses, strict=True):
             if isinstance(response, Exception):
                 print(f"  {original} -> Error: {response}")
             else:

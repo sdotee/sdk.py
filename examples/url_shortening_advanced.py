@@ -165,7 +165,7 @@ async def create_password_protected_urls(api_key: str) -> None:
             print("✓ Created password-protected URL")
             print(f"  Password: {request.password}")
             print(f"  Data: {response.data}")
-            print(f"  Note: Users will need to enter the password to access the URL")
+            print("  Note: Users will need to enter the password to access the URL")
             print()
         except Exception as e:
             print(f"✗ Failed to create password-protected URL: {e}")
@@ -208,7 +208,9 @@ async def workflow_example(api_key: str) -> None:
         )
 
         update_response = await client.update_short_url(update_request)
-        print(f"  Updated: Code {update_response.code}, Message: {update_response.message}")
+        print(
+            f"  Updated: Code {update_response.code}, Message: {update_response.message}"
+        )
         print()
 
         # Step 4: Delete the URL
@@ -221,7 +223,9 @@ async def workflow_example(api_key: str) -> None:
         )
 
         delete_response = await client.delete_short_url(delete_request)
-        print(f"  Deleted: Code {delete_response.code}, Message: {delete_response.message}")
+        print(
+            f"  Deleted: Code {delete_response.code}, Message: {delete_response.message}"
+        )
         print()
 
 
