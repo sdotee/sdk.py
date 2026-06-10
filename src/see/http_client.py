@@ -111,16 +111,16 @@ class HttpClient:
 
     async def get(self, path: str, **kwargs: Any) -> dict[str, Any]:
         """Make a GET request."""
-        return cast(dict[str, Any], await self.request("GET", path, **kwargs))
+        return cast("dict[str, Any]", await self.request("GET", path, **kwargs))
 
     async def post(self, path: str, **kwargs: Any) -> dict[str, Any]:
         """Make a POST request."""
-        return cast(dict[str, Any], await self.request("POST", path, **kwargs))
+        return cast("dict[str, Any]", await self.request("POST", path, **kwargs))
 
     async def put(self, path: str, **kwargs: Any) -> dict[str, Any]:
         """Make a PUT request."""
-        return cast(dict[str, Any], await self.request("PUT", path, **kwargs))
+        return cast("dict[str, Any]", await self.request("PUT", path, **kwargs))
 
     async def delete(self, path: str, **kwargs: Any) -> dict[str, Any]:
         """Make a DELETE request."""
-        return cast(dict[str, Any], await self.request("DELETE", path, **kwargs))
+        return cast("dict[str, Any]", await self.request("DELETE", path, **kwargs))
