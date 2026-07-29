@@ -61,7 +61,7 @@ class HttpClient:
         except Exception:
             data = {"content": response.text}
 
-        if response.status_code in (200, 201):
+        if 200 <= response.status_code < 300:
             return data
 
         raise APIError(
@@ -124,3 +124,11 @@ class HttpClient:
     async def delete(self, path: str, **kwargs: Any) -> dict[str, Any]:
         """Make a DELETE request."""
         return cast("dict[str, Any]", await self.request("DELETE", path, **kwargs))
+
+    async def head(self, path: str, **kwargs: Any) -> dict[str, Any]:
+        """Make a HEAD request."""
+        return cast("dict[str, Any]", await self.request("HEAD", path, **kwargs))
+
+    async def patch(self, path: str, **kwargs: Any) -> dict[str, Any]:
+        """Make a PATCH request."""
+        return cast("dict[str, Any]", await self.request("PATCH", path, **kwargs))

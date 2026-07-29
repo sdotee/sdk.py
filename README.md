@@ -48,17 +48,17 @@ export SEE_API_KEY="your-api-key-here"
 
 ### Basic Usage
 
-See [examples/quickstart.py](examples/quickstart.py) for a simple example of how to create a short URL.
+See [examples/url_shortening.py](examples/url_shortening.py) for a simple example of how to create a short URL.
 
 ## Examples
 
 The [examples](examples/) directory contains comprehensive usage examples for all features:
 
-- **Quick Start**: [examples/quickstart.py](examples/quickstart.py) - Basic usage for Short URLs.
-- **Short URLs**: [examples/complete_example.py](examples/complete_example.py) - Advanced Short URL features (custom slugs, tags, expiration).
+- **Quick Start**: [examples/url_shortening.py](examples/url_shortening.py) - Basic usage for Short URLs.
+- **Short URLs**: [examples/url_shortening_complete.py](examples/url_shortening_complete.py) - Advanced Short URL features (custom slugs, tags, expiration).
 - **Text Sharing**: [examples/text_sharing.py](examples/text_sharing.py) - Creating, updating, and deleting shared text.
 - **File Sharing**: [examples/file_sharing.py](examples/file_sharing.py) - Uploading and managing files.
-- **Advanced Usage**: [examples/advanced_example.py](examples/advanced_example.py) - Complex workflows and resource management.
+- **Advanced Usage**: [examples/url_shortening_advanced.py](examples/url_shortening_advanced.py) - Complex workflows and resource management.
 
 ## Development
 
@@ -102,8 +102,37 @@ Main client class for API interactions.
 - `create_short_url(request)` - Create short URL
 - `update_short_url(request)` - Update short URL
 - `delete_short_url(request)` - Delete short URL
+- `create_short_url_simple(url, ...)` - Create a short URL using query parameters
+- `get_link_history(page)` - Get short URL history
+- `get_link_visit_stat(domain, slug, period)` - Get link visit statistics
+- `create_text(request)` / `update_text(request)` / `delete_text(request)` - Manage shared text
+- `get_text_history(page)` - Get shared text history
+- `upload_file(path, domain, custom_slug)` - Upload a file
+- `get_file_history(page)` - Get file history
+- `get_private_file_download_url(file_id)` - Get a temporary private download URL
+- `create_large_file_upload(request)` - Create a resumable large-file upload session
+- `upload_large_file_chunk(upload_id, chunk, offset)` - Upload a TUS chunk
+- `complete_large_file_upload(upload_id)` - Complete a large-file upload
+- `create_bio_page(request)` / `update_bio_page(request)` / `delete_bio_page(request)` - Manage bio pages
+- `create_qrcode(request)` / `delete_qrcode(request)` - Manage dynamic QR codes
+- `check_token(token)` - Validate an API token
+- `get_usage()` - Get account usage and limits
 - `get_domains()` - Get available domains
 - `get_tags()` - Get available tags
+
+### Large File Upload
+
+```python
+from see import SeeClient
+from see.models import CreateLargeFileUploadRequest
+
+async with SeeClient(api_key="your-api-key") as client:
+    session = await client.create_large_file_upload(
+        CreateLargeFileUploadRequest(file_name="video.mp4", file_size=len(content))
+    )
+    await client.upload_large_file_chunk(session.data.upload_id, content, offset=0)
+    result = await client.complete_large_file_upload(session.data.upload_id)
+```
 
 ### Models
 
