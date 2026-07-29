@@ -2,7 +2,10 @@
 
 from typing import Any
 
+from .api.account import AccountAPI
+from .api.bio import BioAPI
 from .api.file import FileAPI
+from .api.qrcode import QrcodeAPI
 from .api.text import TextAPI
 from .api.url import ShortUrlAPI
 from .exceptions import ValidationError
@@ -13,7 +16,7 @@ from .models import (
 )
 
 
-class SeeClient(ShortUrlAPI, TextAPI, FileAPI):
+class SeeClient(ShortUrlAPI, TextAPI, FileAPI, BioAPI, QrcodeAPI, AccountAPI):
     """
     Main client for interacting with SEE Content Sharing services.
 

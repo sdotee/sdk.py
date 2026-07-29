@@ -46,6 +46,12 @@ class TestSeeClientText:
             request = CreateTextRequest(
                 content="Hello World",
                 title="My Text",
+                custom_slug="hello",
+                domain="fs.to",
+                expire_at=1735689600,
+                password="secret",
+                tag_ids=[1, 2],
+                text_type="markdown",
             )
             result = await client.create_text(request)
 
@@ -53,7 +59,19 @@ class TestSeeClientText:
             assert result.code == 0
             assert result.custom_slug == "slug123"
             assert result.short_url == "https://s.ee/t/slug123"
-            mock_post.assert_called_once()
+            mock_post.assert_called_once_with(
+                "/v1/text",
+                json={
+                    "content": "Hello World",
+                    "title": "My Text",
+                    "custom_slug": "hello",
+                    "domain": "fs.to",
+                    "expire_at": 1735689600,
+                    "password": "secret",
+                    "tag_ids": [1, 2],
+                    "text_type": "markdown",
+                },
+            )
 
     @pytest.mark.asyncio
     async def test_update_text(

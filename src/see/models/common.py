@@ -5,6 +5,23 @@ from typing import Any
 
 
 @dataclass(frozen=True)
+class OperationResponse:
+    """Represents a response for an operation without a dedicated payload."""
+
+    code: int
+    message: str
+    data: Any = None
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "OperationResponse":
+        return cls(
+            code=data.get("code", 0),
+            message=data.get("message", ""),
+            data=data.get("data"),
+        )
+
+
+@dataclass(frozen=True)
 class DomainResponse:
     """Represents a response payload containing available domains."""
 

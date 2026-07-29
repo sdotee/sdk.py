@@ -52,7 +52,9 @@ class TestSeeClientFile:
                 return_value=mock_response,
             )
 
-            result = await client.upload_file(str(p))
+            result = await client.upload_file(
+                str(p), domain="files.example", custom_slug="report"
+            )
 
             assert isinstance(result, UploadFileResponse)
             assert result.code == 0
@@ -63,6 +65,10 @@ class TestSeeClientFile:
             # Verify called kwargs
             _args, kwargs = mock_post.call_args
             assert "files" in kwargs
+            assert kwargs["data"] == {
+                "domain": "files.example",
+                "custom_slug": "report",
+            }
 
     @pytest.mark.asyncio
     async def test_delete_file(

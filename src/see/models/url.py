@@ -120,3 +120,71 @@ class DeleteShortUrlResponse:
             data=data.get("data", ""),
             message=data.get("message", ""),
         )
+
+
+@dataclass(frozen=True)
+class LinkHistoryItem:
+    """Represents one short-link history entry."""
+
+    created_at: int = 0
+    domain: str = ""
+    object_type: int = 0
+    short_url: str = ""
+    slug: str = ""
+    target_url: str = ""
+    title: str = ""
+    visit_count: int = 0
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "LinkHistoryItem":
+        return cls(
+            **{
+                key: data.get(key, default)
+                for key, default in {
+                    "created_at": 0,
+                    "domain": "",
+                    "object_type": 0,
+                    "short_url": "",
+                    "slug": "",
+                    "target_url": "",
+                    "title": "",
+                    "visit_count": 0,
+                }.items()
+            }
+        )
+
+
+@dataclass(frozen=True)
+class LinkHistoryResponse:
+    """Represents a paginated short-link history response."""
+
+    code: int
+    data: list[LinkHistoryItem]
+    message: str
+    success: bool = False
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "LinkHistoryResponse":
+        return cls(
+            code=data.get("code", 0),
+            data=[LinkHistoryItem.from_dict(item) for item in data.get("data", [])],
+            message=data.get("message", ""),
+            success=data.get("success", False),
+        )
+
+
+@dataclass(frozen=True)
+class LinkVisitStatResponse:
+    """Represents visit statistics for a short link."""
+
+    code: int
+    visit_count: int
+    message: str
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "LinkVisitStatResponse":
+        return cls(
+            code=data.get("code", 0),
+            visit_count=data.get("data", {}).get("visit_count", 0),
+            message=data.get("message", ""),
+        )

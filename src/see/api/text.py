@@ -6,6 +6,7 @@ from ..models import (
     DeleteTextRequest,
     DeleteTextResponse,
     DomainResponse,
+    TextHistoryResponse,
     UpdateTextRequest,
     UpdateTextResponse,
 )
@@ -77,3 +78,8 @@ class TextAPI(BaseAPI):
         """
         response = await self._http_client.get("/v1/text/domains")
         return DomainResponse.from_dict(response)
+
+    async def get_text_history(self, page: int = 1) -> TextHistoryResponse:
+        """Get a page of text sharing creation history."""
+        response = await self._http_client.get("/v1/texts", params={"page": page})
+        return TextHistoryResponse.from_dict(response)
