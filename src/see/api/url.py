@@ -6,6 +6,8 @@ from ..models import (
     CreateShortUrlResponse,
     DeleteShortUrlRequest,
     DeleteShortUrlResponse,
+    LinkHistoryResponse,
+    LinkVisitStatResponse,
     UpdateShortUrlRequest,
     UpdateShortUrlResponse,
 )
@@ -14,6 +16,39 @@ from .base import BaseAPI
 
 class ShortUrlAPI(BaseAPI):
     """API methods for Short URL operations."""
+
+    async def create_short_url_simple(
+        self,
+        url: str,
+        *,
+        domain: str | None = None,
+        custom_slug: str | None = None,
+        title: str | None = None,
+        tag_ids: list[int] | None = None,
+        password: str | None = None,
+        expire_at: int | None = None,
+        json_response: bool = False,
+    ) -> CreateShortUrlResponse | str:
+        """Create a short URL through the query-parameter based endpoint."""
+        params = {
+            key: value
+            for key, value in {
+                "signature": self._http_client.api_key,
+                "url": url,
+                "domain": domain,
+                "custom_slug": custom_slug,
+                "title": title,
+                "tag_ids": tag_ids,
+                "password": password,
+                "expire_at": expire_at,
+                "json": json_response,
+            }.items()
+            if value is not None
+        }
+        response = await self._http_client.get("/v1/shorten", params=params)
+        if json_response:
+            return CreateShortUrlResponse.from_dict(response)
+        return str(response.get("content", response.get("data", "")))
 
     async def create_short_url(
         self, request: CreateShortUrlRequest
@@ -84,3 +119,21 @@ class ShortUrlAPI(BaseAPI):
         """
         response = await self._http_client.delete("/v1/shorten", json=asdict(request))
         return DeleteShortUrlResponse.from_dict(response)
+
+    async def get_link_history(self, page: int = 1) -> LinkHistoryResponse:
+        """Get a page of short-link creation history."""
+        response = await self._http_client.get("/v1/links", params={"page": page})
+        return LinkHistoryResponse.from_dict(response)
+
+    async def get_link_visit_stat(
+        self,
+        domain: str,
+        slug: str,
+        period: str = "totally",
+    ) -> LinkVisitStatResponse:
+        """Get visit statistics for a short link."""
+        response = await self._http_client.get(
+            "/v1/link/visit-stat",
+            params={"domain": domain, "slug": slug, "period": period},
+        )
+        return LinkVisitStatResponse.from_dict(response)
